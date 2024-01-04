@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    background-color: black;
+  }
+.tela{
+  position: absolute;
+  height: 30%;
+  left: 0;
+  top:0;
+  border:1px solid white;
+}
+div{
+
+  border:2px solid black;
+
+}
+h1{
+
+  font-size: 25px;
+  text-align: center;
+  color:white;
+  font-family: 'Courier New';
+}
+#vento{
+  display:none;
+}
