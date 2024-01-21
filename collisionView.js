@@ -9,7 +9,11 @@ class Colision{
         this.vectorVisionPlayer = vectorPlayer.visao;
         this.vectorItens = vectorItens
         this.listCollision = [];
-    }
+        this.vara = {x1:0,y1:0,x2:0,y2:0};
+
+
+        this.desenho = canvas.getContext("2d");
+     }
 
     radians(val){
         return ((Math.PI / 180) * val);
@@ -197,7 +201,7 @@ class Colision{
     
             console.log("Segue informações de Colisão Atual:");
             //lastColision guarda informações de por onde o campo de visão acabou acertando e em quem foi
-           console.log(this.listCollision); 
+           console.log(this.vara); 
            
 
         }
@@ -213,29 +217,32 @@ class Colision{
         
         var anguloAtual = this.vectorPlayerAtt.aX;
 
-        var box = this.vectorPlayerAtt.collision;
+        var box = this.vectorPlayer;
         
         var normalizar=[];
+        this.desenho.fillStyle = "red";
+        this.desenho.fillRect(0,0,900,900);
 
 
         normalizar[0] = {x1:box[0].x,y1:box[0].y,x2:box[1].x,y2:box[1].y};
         normalizar[1] = {x1:box[0].x,y1:box[0].y,x2:box[2].x,y2:box[2].y};
         normalizar[2] = {x1:box[2].x,y1:box[2].y,x2:box[3].x,y2:box[3].y};
         normalizar[3] = {x1:box[3].x,y1:box[3].y,x2:box[1].x,y2:box[1].y};
-        
+        //0 a 2 é a bunda;/;
         var colidiu=false;
         
-        var x1 = (normalizar[3].x1+normalizar[3].x2)/2;
-        var y1 = (normalizar[3].y1+normalizar[3].y2)/2;
+        var x1 = (normalizar[1].x1+normalizar[1].x2)/2;
+        var y1 = (normalizar[1].y1+normalizar[1].y2)/2;
         
         x1 = x1+1*Math.cos(this.radians(anguloAtual));
         y1 = y1+1*Math.sin(this.radians(anguloAtual));
-        var vara = {
+        this.vara = {
         x1: x1,
         y1: y1,
-        x2: x1+5*Math.cos(this.radians(anguloAtual)),
-        y2: y1+5*Math.sin(this.radians(anguloAtual))};
-   
+        x2: x1+10*Math.cos(this.radians(anguloAtual)),
+        y2: y1+10*Math.sin(this.radians(anguloAtual))};
+        
+
         for(let i=0;i<this.vectorWalls.length;i++){
 
 
@@ -243,7 +250,7 @@ class Colision{
 
         var wall = this.vectorWalls[i].parede[j];
         
-        var colidiu = this.lineCheckBox(vara.x1,vara.y1,vara.x2,vara.y2,wall.x1,wall.y1,wall.x2,wall.y2,null,null,0);
+        var colidiu = this.lineCheckBox(this.vara.x1,this.vara.y1,this.vara.x2,this.vara.y2,wall.x1,wall.y1,wall.x2,wall.y2,null,null,0);
    
         //UP VISION FIX
         if(anguloAtual==270){
@@ -255,7 +262,7 @@ class Colision{
             if(colidiu!=null) move[1]=false;
         }
         //RIGHT VISION FIX
-        else if(anguloAtual==0){
+        else if(anguloAtual==0 || anguloAtual==360){
             if(colidiu!=null) move[0]=false;
         }
         //LEFT VISION
@@ -271,12 +278,6 @@ class Colision{
 
     hitPlayer(){
         var box = this.vectorPlayerAtt.collision;
-        var normalizar=[];
-        normalizar[0] = {x1:box[0].x,y1:box[0].y,x2:box[1].x,y2:box[1].y};
-        normalizar[1] = {x1:box[0].x,y1:box[0].y,x2:box[2].x,y2:box[2].y};
-        normalizar[2] = {x1:box[2].x,y1:box[2].y,x2:box[3].x,y2:box[3].y};
-        normalizar[3] = {x1:box[3].x,y1:box[3].y,x2:box[1].x,y2:box[1].y};
-  
         //Para todo item
         for(let i=0;i<this.vectorItens.length;i++){
 
@@ -286,23 +287,28 @@ class Colision{
                 var itemV = x.item[j];
                 var tamanhoW = itemV.x2 - itemV.x1;
                 var tamanhoH = itemV.y2 - itemV.y1;
-                for(let a=0;a<normalizar.length;a++){
                     if (
-                        normalizar[a].x1< itemV.x1 + tamanhoW &&
-                        normalizar[a].x1 +10 > itemV.x1  &&
-                        normalizar[a].y1 < itemV.y1 + tamanhoH &&
-                        normalizar[a].y1 + 10 > itemV.y1
+                        box[4].x < itemV.x1 + 2*tamanhoW &&
+                        box[4].x + 20 > itemV.x1  &&
+                        box[4].y < itemV.y1 + 2*tamanhoH &&
+                        box[4].y + 20 > itemV.y1
                     ) {
                         var tipo = x.tipo;
                         x.destroy();
                         this.vectorItens.splice(i,1);
                         return tipo;
                     }
-                }
             }
     }
-    return false;
-}
+    return -1;
+}   
+
+    draw(){
+        this.desenho.strokeStyle = "black";
+        this.desenho.moveTo(this.vara.x1,this.vara.y1);
+        this.desenho.lineTo(this.vara.x2,this.vara.y2);
+        this.desenho.stroke();
+    }   
 
     viewThings(){
     

@@ -20,7 +20,7 @@ class Item{
     draw(){
 
         this.power.beginPath();
-        this.power.strokeStyle = "rgb(0, 255, 255)";
+        this.power.strokeStyle = "rgb(0, 0,0)";
 
         for (let i = 0; i < this.item.length; i++) {
             this.power.moveTo(this.item[i].x1, this.item[i].y1);

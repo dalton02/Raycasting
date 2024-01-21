@@ -8,7 +8,7 @@ class Walker
     constructor(width,height){
         this.aX = 0;
         this.aV = 90;
-        this.speed = 1;
+        this.speed = 5;
         this.acel = 2;
         //Configurations of FOV
         this.spreed = .6;
@@ -16,13 +16,18 @@ class Walker
         this.laser = 200;
         
         //Effects
-        this.effect = 0;
-        
+        this.effect = [];
+        for(let i=0;i<5;i++){
+            this.effect[i]=0;
+        }
         this.move=[true,true];
         this.lastK;
         this.width = width;
         this.height = height;
         this.distanceView = 750;
+
+        this.sons = [];
+        this.sons[0] = new Audio('passos.mp3');
 
         this.player = [
             {x: 50,y: 30}, //FACE
@@ -54,24 +59,31 @@ class Walker
         let y = centro.y + (point.x - centro.x) * Math.sin(this.radians(vel)) + (point.y - centro.y) * Math.cos(this.radians(vel));
         return { x, y };
     }
-    myKey(event){
 
-        //Info about variables
-    if(event.code=="KeyH"){
-        console.log(this.aX);
+
+    sounds(init,keep,audio){
+        if(init==1)
+            audio.play();
+        else if(keep==0){
+            audio.pause();
+            audio.currentTime =0;
+        }
+
     }
 
+    myKey(event){
+    
 
-    //Mapear movimentos
 
-    var map= {left: 0,right:0,up:0,down:0};
-
+    if(event.type=="keydown"){
+        //Info about variables
+    if(event.code=="KeyH"){
+        console.log(this.effect);
+    }
 
     if(event.code=="ArrowRight" || event.code=="ArrowLeft"){
-        
-
+    
         this.lastK = 0;
-        this.speed=1;
         var vel = this.aV;
         if(event.code=="ArrowRight"){
             
@@ -91,33 +103,49 @@ class Walker
         }
 
     }
-        
-    if(event.code=="ArrowUp"){
-
-            
+        if(event.code=="ArrowUp"){
+                    
             if(this.lastK==1){
-                if(this.speed<4)
-                this.speed += this.acel;
+                this.sounds(0,1,this.sons[0]);
+            }
+            else{   
+                this.sounds(1,1,this.sons[0]);
             }
             this.lastK = 1;
             
             let dx=0,dy=0;
-            if(this.move[0]==true){
-              dx = Math.cos(this.radians(this.aX)) * this.speed;
-            }
-            if(this.move[1]==true){
-              dy = Math.sin(this.radians(this.aX)) * this.speed;
-            }
-
+            
+            
+            this.move = colisor.stuckWalls();
+        
+            if(this.move[0]==true)
+            dx = Math.cos(this.radians(this.aX)) * this.speed;    
+            if(this.move[1]==true)
+            dy = Math.sin(this.radians(this.aX)) * this.speed;
+        
+            
             for (let i = 0; i < 5; i++) {
                     this.player[i].x += dx;
                     this.player[i].y += dy;
                     this.collision[i].x += dx;
                     this.collision[i].y += dy;
                 }
+        }else{
+            this.sounds(0,0,this.sons[0]);
         }
 
-        }       
+        }  
+
+        else if(event.type=="keyup"){
+
+            if(event.code=="ArrowUp"){  
+            this.sounds(0,0,this.sons[0]);
+            }
+
+        } 
+    
+    
+    }
     
         draw(){
 
@@ -140,7 +168,7 @@ class Walker
             this.desenho.stroke();
             this.desenho.closePath();
            
-            this.desenho.beginPath();
+           // this.desenho.beginPath();
             this.desenho.strokeStyle = 'black';            
             this.desenho.moveTo(this.collision[0].x,this.collision[0].y);
             this.desenho.lineTo(this.collision[1].x,this.collision[1].y);
@@ -153,18 +181,20 @@ class Walker
 
 
 
-            this.desenho.stroke();
+            //this.desenho.stroke();
             this.drawViewport();
         }
 
 
         powers(){
 
-            if(this.effect==0){
-            }
-            else if(this.effect==1){
-            }
+            //0 == KEY
+            //1 == DOR
 
+            if(this.effect[0]==1 && this.effect[1]==1){
+                return 69;
+            }
+            return 0;
         }
 
         distanceC(x1, y1, x2, y2, angulo) {

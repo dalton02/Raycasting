@@ -20,14 +20,14 @@ class Wall{
     draw(){
 
         this.obstaculo.beginPath();
-        this.obstaculo.strokeStyle = "rgb(0,0,0)";
+        this.obstaculo.strokeStyle = "black";
 
         for (let i = 0; i < this.parede.length; i++) {
             this.obstaculo.moveTo(this.parede[i].x1, this.parede[i].y1);
             this.obstaculo.lineTo(this.parede[i].x2, this.parede[i].y2);
         }
-        this.obstaculo.stroke();
         this.obstaculo.closePath();
+        this.obstaculo.stroke();
         
     
     }

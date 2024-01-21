@@ -59,30 +59,30 @@ class CastingView{
         currentDistance = currentDistance * Math.cos(distanceAngle);
         
 
-        var limite = 1800;
+        var limite = this.h;
         var constante;
         var fimH = this.h*2;
-        var tickness=8;
+        var tickness=7;
         
         if(this.collisionView[i].type==1){
-        constante = 10000;
+        constante = 12000;
         var alturaAtual = constante/currentDistance;
         if(alturaAtual>limite) alturaAtual=limite;
         if(alturaAtual<0) alturaAtual=0;
         var offsetH = fimH/4 - alturaAtual/2;
-        var b=(alturaAtual/7)*2;
-        var g=(alturaAtual/2)*7;
-        var r=(alturaAtual/1)*5;
+        var b=(alturaAtual/10)*1;
+        var g=(alturaAtual/3)*5;
+        var r=(alturaAtual/1)*3;
         this.casting.fillStyle =  'rgb('+r+','+g+','+b+')'; 
         this.casting.fillRect(i*tickness,offsetH,tickness,alturaAtual);
     }
         //casting the enemy
         else if(this.collisionView[i].type==2){
-        constante = 10000;
-        var alturaAtual = constante/currentDistance;
+        constante = 12000;
+        var alturaAtual = constante/(currentDistance);
         if(alturaAtual>limite) alturaAtual=limite;
         if(alturaAtual<0) alturaAtual=0;
-        var offsetH = fimH/4 - alturaAtual/20; 
+        var offsetH = fimH/4 - alturaAtual/2; 
         var b=alturaAtual/10;
         var g=alturaAtual/8;
         var r=alturaAtual/1;
@@ -94,12 +94,11 @@ class CastingView{
         }
         
         else if(this.collisionView[i].type==3){
-            constante = 10000;
-            limite = 600;
-            var alturaAtual = constante/currentDistance;
+            constante = 12000;
+            var alturaAtual = constante/(currentDistance);
             if(alturaAtual>limite) alturaAtual=limite;
             if(alturaAtual<0) alturaAtual=0;
-            var offsetH = fimH/4 - alturaAtual/60; 
+            var offsetH = fimH/4 - alturaAtual/4; 
             var b=alturaAtual/5;
             var g=alturaAtual/8;
             var r=alturaAtual/1;
