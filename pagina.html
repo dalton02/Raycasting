@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My first game</title>
-    <script src="wall.js"></script>
-    <script src="menu.js"></script>
-    <script src="item.js"></script>
-    <script src="player.js"></script>
-    <script src="enemy.js"></script>
-    <script src="castingView.js"></script>
-    <script src="collisionView.js"></script>
+    <title>Raycasting Engine</title>
+    <script src="casting.js"></script>
     <script src="game.js" defer></script>
     <link href="estilo.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 </head>
 
 <body>
-<div>
-    <canvas class="casting">
-    </canvas>
+<div class="title"><h1>Raycasting Engine</h1></div>
+<i class="material-icons" style="position:absolute;color:white;cursor:pointer;top:10%;right:0%;z-index:100;height:5vh;width:5vw;">fullscreen</i>
+
+<div class="flex">
+	
+	<div class="clickDiv">
     <canvas class="tela">
 </canvas>
+    <canvas class="casting">
+</canvas>
+	</div>
 </div>
+
+<div class="controls">CONTROLES: <BR/>WASD - MOVE <br/> MOUSE - LOOK AROUND</div>
+
 </body>
 </html>
