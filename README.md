@@ -5,7 +5,7 @@ A raycaster engine based on the game Doom, created from scratch using JavaScript
 ### Getting Started
 
 To experience the project, visit the following website:
-[Raycaster](https://htmlpreview.github.io/?https://github.com/dalton02/raycasting/blob/main/pagina.html)
+[Raycaster](https://dalton02.github.io/Raycasting/)
 
 ### Contributing
 
